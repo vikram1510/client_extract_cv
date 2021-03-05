@@ -15,7 +15,7 @@ interface File1 extends File {
 const getName = (file: File1) => file.webkitRelativePath || file.name
 
 const url = 'http://extractcsv-env.eba-q9jcpbqj.eu-west-2.elasticbeanstalk.com'
-console.log({url})
+
 function App() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<File[]>([]);
@@ -53,11 +53,11 @@ function App() {
       data.append(getName(file), file)
     })
 
-    axios.post(`${url}/upload`, data)
+    axios.post(`${url}/upload`, data, { headers: {"Access-Control-Allow-Origin": "*"} })
       .then(res => setDownloadLink(res.data.link))
       .then(() => setStatus('finish'))
       .then(() => setFiles([]))
-      .catch(console.log)
+      .catch(err => console.log(err.response))
   }
 
   const handleClick = () => {
@@ -71,7 +71,7 @@ function App() {
     setError('')
     inputRef.current!.value = ''
   }
-  
+
   return (
   <Grid container xs justify='center'>
     <Grid xs={6} container direction='column' alignItems='center' >
