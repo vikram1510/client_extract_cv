@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+        - npm install
+  build:
+    commands:
+        - echo "Building...!"
+        - npm run build
+        - echo "Copying to s3"
+        - aws s3 sync build/ s3://extracted-cv-csv-files/
